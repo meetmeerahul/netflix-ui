@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:neflix_ui/core/colors/colors.dart';
-import 'package:neflix_ui/core/constants.dart';
+
 import 'package:neflix_ui/presentation/home/widgets/custom_button_widget.dart';
 
+// ignore: must_be_immutable
 class BackgroundCard extends StatefulWidget {
-  const BackgroundCard({super.key});
+  late String imageLInk;
+
+  BackgroundCard({super.key, required this.imageLInk});
 
   @override
   State<BackgroundCard> createState() => _BackgroundCardState();
@@ -19,7 +22,11 @@ class _BackgroundCardState extends State<BackgroundCard> {
           width: double.infinity,
           height: 600,
           decoration: BoxDecoration(
-              image: DecorationImage(image: NetworkImage(KMainImage))),
+            image: DecorationImage(
+              image: NetworkImage(
+                  'https://www.themoviedb.org/t/p/w500' + widget.imageLInk),
+            ),
+          ),
         ),
         Positioned(
           bottom: 0,

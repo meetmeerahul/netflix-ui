@@ -5,15 +5,15 @@ import 'package:neflix_ui/core/constants.dart';
 
 class NumberCard extends StatefulWidget {
   final int index;
-  const NumberCard({super.key, required this.index});
+
+  final String posterPath;
+  NumberCard({super.key, required this.index, required this.posterPath});
 
   @override
   State<NumberCard> createState() => _NumberCardState();
 }
 
 class _NumberCardState extends State<NumberCard> {
-  int get index => widget.index;
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -32,7 +32,7 @@ class _NumberCardState extends State<NumberCard> {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                    'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg',
+                    'https://www.themoviedb.org/t/p/w500${widget.posterPath}',
                   ),
                 ),
               ),
@@ -46,7 +46,7 @@ class _NumberCardState extends State<NumberCard> {
             strokeWidth: 10.0,
             strokeColor: KWhiteColor,
             child: Text(
-              '$index',
+              '${widget.index}',
               style: TextStyle(
                   fontSize: 150,
                   color: KBlack,

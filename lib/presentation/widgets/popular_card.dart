@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:neflix_ui/core/constants.dart';
 
-class MainCard extends StatefulWidget {
+class PopularCard extends StatefulWidget {
   final String posterPath;
-
-  const MainCard({
+  const PopularCard({
     super.key,
     required this.posterPath,
   });
 
   @override
-  State<MainCard> createState() => _MainCardState();
+  State<PopularCard> createState() => _PopularCardState();
 }
 
-class _MainCardState extends State<MainCard> {
+class _PopularCardState extends State<PopularCard> {
   @override
   Widget build(BuildContext context) {
+    print("----------------------");
+    print(widget.posterPath);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: 130,
@@ -25,7 +26,7 @@ class _MainCardState extends State<MainCard> {
         image: DecorationImage(
           fit: BoxFit.cover,
           image: NetworkImage(
-            'https://www.themoviedb.org/t/p/w500${widget.posterPath}',
+            'https://www.themoviedb.org/t/p/w500' + widget.posterPath,
           ),
         ),
       ),

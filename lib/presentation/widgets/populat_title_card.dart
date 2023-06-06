@@ -4,14 +4,17 @@ import 'package:neflix_ui/core/constants.dart';
 import 'package:neflix_ui/presentation/widgets/main_card.dart';
 import 'package:neflix_ui/presentation/widgets/main_title.dart';
 
-class MainTitleCard extends StatelessWidget {
-  final List<dynamic> trendingList;
+class PopularTitleCard extends StatelessWidget {
+  final List<dynamic> popularList;
   final String tittle;
 
-  MainTitleCard({super.key, required this.trendingList, required this.tittle});
+  PopularTitleCard(
+      {super.key, required this.popularList, required this.tittle});
 
   @override
   Widget build(BuildContext context) {
+    print("----------------------");
+    print(popularList.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -21,9 +24,9 @@ class MainTitleCard extends StatelessWidget {
           maxHeight: 200,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: List.generate(trendingList.length, (index) {
+            children: List.generate(popularList.length, (index) {
               return MainCard(
-                posterPath: trendingList[index].posterPath ?? " may be null",
+                posterPath: popularList[index].posterPath ?? " ",
               );
             }),
           ),
