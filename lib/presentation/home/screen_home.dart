@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:neflix_ui/core/colors/colors.dart';
 
 import 'package:neflix_ui/core/constants.dart';
+import 'package:neflix_ui/domain/trending/trending_api.dart';
+import 'package:neflix_ui/domain/trending/trending_model.dart';
 import 'package:neflix_ui/presentation/home/widgets/background_card_widget.dart';
 
 import 'package:neflix_ui/presentation/home/widgets/number_title_card.dart';
@@ -19,6 +23,20 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  List<Results> trendingList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTrending();
+  }
+
+  getTrending() async {
+    trendingList = await TrendingApi.getTrendingMovies();
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,17 +57,19 @@ class _ScreenHomeState extends State<ScreenHome> {
                 child: Stack(
                   children: [
                     ListView(
-                      children: const [
+                      children: [
                         BackgroundCard(),
-                        MainTitleCard(title: 'Released in this year'),
+                        // MainTitleCard(title: 'Released in this year'),
                         KHeight,
-                        MainTitleCard(title: 'Trending Now'),
+                        MainTitleCard(
+                          trendingList: trendingList,
+                        ),
                         KHeight,
                         NumberTitleCard(),
                         KHeight,
-                        MainTitleCard(title: 'Tense Dramas'),
+                        // MainTitleCard(title: 'Tense Dramas'),
                         KHeight,
-                        MainTitleCard(title: 'South Indian Cinema'),
+                        // MainTitleCard(title: 'South Indian Cinema'),
                         KHeight,
                       ],
                     ),
