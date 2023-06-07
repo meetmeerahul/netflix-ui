@@ -4,7 +4,9 @@ import 'package:neflix_ui/core/constants.dart';
 
 class VideoListItem extends StatefulWidget {
   final int index;
-  const VideoListItem({super.key, required this.index});
+  final String posterPath;
+  const VideoListItem(
+      {super.key, required this.index, required this.posterPath});
 
   @override
   State<VideoListItem> createState() => _VideoListItemState();
@@ -18,7 +20,14 @@ class _VideoListItemState extends State<VideoListItem> {
     return Stack(
       children: [
         Container(
-          color: Colors.accents[index % Colors.accents.length],
+          width: double.infinity,
+          height: 600,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                  'https://www.themoviedb.org/t/p/w500${widget.posterPath}'),
+            ),
+          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -44,11 +53,11 @@ class _VideoListItemState extends State<VideoListItem> {
                 //Right side
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
+                  children: [
                     CircleAvatar(
                       radius: 30,
                       backgroundImage: NetworkImage(
-                          'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/3zunvPLgM9qGFr8ob2BpaKSuAJI.jpg'),
+                          'https://www.themoviedb.org/t/p/w500${widget.posterPath}'),
                     ),
                     VideoIconsWidget(icon: Icons.emoji_emotions, title: 'LOL'),
                     KHeight,

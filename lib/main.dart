@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:neflix_ui/core/colors/colors.dart';
 
-import 'package:neflix_ui/presentation/main_page/screen_main_page.dart';
+import 'package:neflix_ui/presentation/splashscreen/splash_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: ScreenMainPage(),
+      home: SplashScreen(),
     );
   }
 }

@@ -56,7 +56,6 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   getPopularMovies() async {
     popularMovies = await PopularApi.getPopularMovies();
-
     setState(() {});
   }
 
