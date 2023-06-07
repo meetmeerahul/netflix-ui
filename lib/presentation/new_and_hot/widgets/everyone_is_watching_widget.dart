@@ -1,35 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:neflix_ui/core/colors/colors.dart';
 import 'package:neflix_ui/core/constants.dart';
+import 'package:neflix_ui/domain/upcoming/upcoming_model.dart';
 import 'package:neflix_ui/presentation/home/widgets/custom_button_widget.dart';
 import 'package:neflix_ui/presentation/widgets/video_widget.dart';
 
-class EveryoneIsWatchingWidget extends StatelessWidget {
-  const EveryoneIsWatchingWidget({
-    super.key,
-  });
+class EveryoneIsWatchingWidget extends StatefulWidget {
+  final List<UpcomingMovieResults> upcomingList;
 
+  final int index;
+
+  const EveryoneIsWatchingWidget(
+      {super.key, required this.upcomingList, required this.index});
+
+  @override
+  State<EveryoneIsWatchingWidget> createState() =>
+      _EveryoneIsWatchingWidgetState();
+}
+
+class _EveryoneIsWatchingWidgetState extends State<EveryoneIsWatchingWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         KHeight20,
         Text(
-          "Friends",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          widget.upcomingList[widget.index].title ?? "",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         KHeight,
-        Text(
-          "The school is putting on the stage play . Steve Zahn, who plays father Richie Kreyman, met his wife Robyn Peterman while they were performing in a national tour of  in 1991.",
-          style: TextStyle(color: KGrey),
-        ),
+        Text(widget.upcomingList[widget.index].overview ?? "",
+            style: TextStyle(color: KGrey, fontSize: 13)),
         KHeight20,
-        VideoWidget(),
+        VideoWidget(
+          backDropPath: widget.upcomingList[widget.index].backdropPath ?? "",
+        ),
         KHeight,
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [
+          children: const [
             CustomButtonWidget(
               icon: Icons.share,
               title: 'Share ',

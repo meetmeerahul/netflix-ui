@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:neflix_ui/core/colors/colors.dart';
 import 'package:neflix_ui/core/constants.dart';
+import 'package:neflix_ui/domain/upcoming/upcoming_api.dart';
+import 'package:neflix_ui/domain/upcoming/upcoming_model.dart';
 
 import 'package:neflix_ui/presentation/new_and_hot/widgets/coming_soon_widget.dart';
 import 'package:neflix_ui/presentation/new_and_hot/widgets/everyone_is_watching_widget.dart';
@@ -8,14 +10,28 @@ import 'package:neflix_ui/presentation/new_and_hot/widgets/everyone_is_watching_
 const String hotAndNewTemp =
     'https://www.themoviedb.org/t/p/w533_and_h300_bestv2/81vgYY5fnGdi3WoCCoSm50gFSKn.jpg';
 
+List<UpcomingMovieResults> upcomingList = [];
+
 class ScreenNewAndHot extends StatefulWidget {
-  const ScreenNewAndHot({super.key});
+  ScreenNewAndHot({super.key});
 
   @override
   State<ScreenNewAndHot> createState() => _ScreenNewAndHotState();
 }
 
 class _ScreenNewAndHotState extends State<ScreenNewAndHot> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUpComing();
+  }
+
+  getUpComing() async {
+    upcomingList = await UpcomingMovieApi.getUpcomingMovies();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -67,24 +83,30 @@ class _ScreenNewAndHotState extends State<ScreenNewAndHot> {
           ),
         ),
         body: TabBarView(children: [
-          _buildComingSoon(),
-          _buildEveryoneIsWatching(),
+          _buildComingSoon(upcomingList: upcomingList),
+          _buildEveryoneIsWatching(upcomingList: upcomingList),
         ]),
       ),
     );
   }
 }
 
-_buildComingSoon() {
+_buildComingSoon({required upcomingList}) {
   return ListView.builder(
-    itemBuilder: (BuildContext, index) => const ComingSoonWidget(),
-    itemCount: 5,
+    itemBuilder: (BuildContext, index) => ComingSoonWidget(
+      upcomingList: upcomingList,
+      index: index,
+    ),
+    itemCount: 9,
   );
 }
 
-_buildEveryoneIsWatching() {
+_buildEveryoneIsWatching({required upcomingList}) {
   return ListView.builder(
-    itemBuilder: (context, index) => const EveryoneIsWatchingWidget(),
+    itemBuilder: (context, index) => EveryoneIsWatchingWidget(
+      upcomingList: upcomingList,
+      index: index,
+    ),
     itemCount: 10,
   );
 }

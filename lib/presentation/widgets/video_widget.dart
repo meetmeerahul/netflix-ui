@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:neflix_ui/core/colors/colors.dart';
-import 'package:neflix_ui/presentation/new_and_hot/screen_New_and_hot.dart';
 
-class VideoWidget extends StatelessWidget {
-  const VideoWidget({
-    super.key,
-  });
+class VideoWidget extends StatefulWidget {
+  final String backDropPath;
 
+  const VideoWidget({super.key, required this.backDropPath});
+
+  @override
+  State<VideoWidget> createState() => _VideoWidgetState();
+}
+
+class _VideoWidgetState extends State<VideoWidget> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -15,7 +19,7 @@ class VideoWidget extends StatelessWidget {
           width: double.infinity,
           height: 200,
           child: Image.network(
-            hotAndNewTemp,
+            'https://www.themoviedb.org/t/p/w500${widget.backDropPath}',
             fit: BoxFit.cover,
           ),
         ),

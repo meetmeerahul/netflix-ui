@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+
 import 'package:http/http.dart' as http;
 import 'package:neflix_ui/domain/tv_shows.dart/tv_shows_model.dart';
 import 'package:neflix_ui/infrastructure/api_key.dart';
@@ -11,14 +11,14 @@ class TrendingTvApi {
     final response = await http.get(Uri.parse(url));
     List tempList = [];
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
+      jsonDecode(response.body);
       // Process the jsonData as per your requirements
-      print(jsonData);
+      //  print(jsonData);
 
       for (var v in jsonDecode(response.body)['results']) {
         tempList.add(v);
       }
-      log(tempList.toString());
+      //log(tempList.toString());
     }
     return TvShows.trendingTvFromSnapshot(tempList);
   }

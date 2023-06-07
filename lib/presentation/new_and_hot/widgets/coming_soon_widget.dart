@@ -1,31 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:neflix_ui/core/colors/colors.dart';
 import 'package:neflix_ui/core/constants.dart';
+import 'package:neflix_ui/domain/upcoming/upcoming_model.dart';
 import 'package:neflix_ui/presentation/home/widgets/custom_button_widget.dart';
 
 import 'package:neflix_ui/presentation/widgets/video_widget.dart';
 
-class ComingSoonWidget extends StatelessWidget {
-  const ComingSoonWidget({
-    super.key,
-  });
+class ComingSoonWidget extends StatefulWidget {
+  final List<UpcomingMovieResults> upcomingList;
+  final int index;
+
+  ComingSoonWidget(
+      {super.key, required this.upcomingList, required this.index});
+
+  @override
+  State<ComingSoonWidget> createState() => _ComingSoonWidgetState();
+}
+
+class _ComingSoonWidgetState extends State<ComingSoonWidget> {
+  get index => widget.index;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    String dateFormat = DateFormat.d()
+        .format(DateTime.parse(widget.upcomingList[index].releaseDate!));
+    String monthFormat = DateFormat.MMM()
+        .format(DateTime.parse(widget.upcomingList[index].releaseDate!));
+
     return Row(
       children: [
-        const SizedBox(
+        SizedBox(
           width: 50,
           height: 500,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text('FEB',
+              Text(monthFormat,
                   style: TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold, color: KGrey)),
               Text(
-                '11',
+                dateFormat,
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -39,21 +56,26 @@ class ComingSoonWidget extends StatelessWidget {
           height: 450,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              VideoWidget(),
+            children: [
+              VideoWidget(
+                backDropPath: widget.upcomingList[index].backdropPath ?? "",
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'TALL GIRL 2',
-                    style: TextStyle(
-                        fontSize: 35,
+                  SizedBox(
+                    width: 140,
+                    child: Text(
+                      widget.upcomingList[index].originalTitle ?? "",
+                      style: TextStyle(
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        letterSpacing: -5),
+                      ),
+                    ),
                   ),
                   Spacer(),
                   Row(
-                    children: [
+                    children: const [
                       CustomButtonWidget(
                         icon: Icons.notifications,
                         title: 'Remind Me',
@@ -73,16 +95,13 @@ class ComingSoonWidget extends StatelessWidget {
                 ],
               ),
               KHeight,
-              Text("Coming on friday"),
-              KHeight,
               Text(
-                "Tall Girl 2",
+                widget.upcomingList[index].title ?? "",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               KHeight,
-              Text(
-                  "The school is putting on the stage play . Steve Zahn, who plays father Richie Kreyman, met his wife Robyn Peterman while they were performing in a national tour of  in 1991.",
-                  style: TextStyle(color: KGrey))
+              Text(widget.upcomingList[index].overview ?? "",
+                  style: TextStyle(color: KGrey, fontSize: 13)),
             ],
           ),
         ),
