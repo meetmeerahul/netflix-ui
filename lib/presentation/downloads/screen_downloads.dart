@@ -5,7 +5,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:neflix_ui/core/colors/colors.dart';
 import 'package:neflix_ui/core/constants.dart';
+import 'package:neflix_ui/domain/upcoming/upcoming_api.dart';
+import 'package:neflix_ui/domain/upcoming/upcoming_model.dart';
 import 'package:neflix_ui/presentation/widgets/app_bar_widget.dart';
+
+List<UpcomingMovieResults> upcomingList = [];
 
 class ScreenDownloads extends StatefulWidget {
   const ScreenDownloads({super.key});
@@ -15,9 +19,23 @@ class ScreenDownloads extends StatefulWidget {
 }
 
 class _ScreenDownloadsState extends State<ScreenDownloads> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUpComing();
+  }
+
+  getUpComing() async {
+    upcomingList = await UpcomingMovieApi.getUpcomingMovies();
+    setState(() {});
+  }
+
   final _widgets = [
     _SmartDownloads(),
-    Section2(),
+    Section2(
+      upcomingList: upcomingList,
+    ),
     Section3(),
   ];
   @override
@@ -99,18 +117,27 @@ class DownloadsImageWidget extends StatelessWidget {
   }
 }
 
-class Section2 extends StatelessWidget {
-  const Section2({super.key});
+// ignore: must_be_immutable
+class Section2 extends StatefulWidget {
+  List<UpcomingMovieResults> upcomingList = [];
 
+  Section2({super.key, required this.upcomingList});
+
+  @override
+  State<Section2> createState() => _Section2State();
+}
+
+class _Section2State extends State<Section2> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
     final imageList = [
-      'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/3zunvPLgM9qGFr8ob2BpaKSuAJI.jpg',
-      'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/42sHptzdrXNzhTcD0ZxYXrQJOBx.jpg',
-      'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lu2DNsIQgn1Jb6djHvrqJSUQXXl.jpg',
+      'https://www.themoviedb.org/t/p/w500${upcomingList[1].posterPath}',
+      'https://www.themoviedb.org/t/p/w500${upcomingList[2].posterPath}',
+      'https://www.themoviedb.org/t/p/w500${upcomingList[3].posterPath}',
     ];
+
     return Column(
       children: [
         const Text(
