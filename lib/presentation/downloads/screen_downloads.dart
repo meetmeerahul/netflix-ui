@@ -47,14 +47,20 @@ class _ScreenDownloadsState extends State<ScreenDownloads> {
           tittle: 'Downloads',
         ),
       ),
-      body: ListView.separated(
-        padding: EdgeInsets.all(10),
-        itemBuilder: (context, index) => _widgets[index],
-        separatorBuilder: (context, index) => SizedBox(
-          height: 25,
-        ),
-        itemCount: _widgets.length,
-      ),
+      body: upcomingList.isEmpty
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Colors.red,
+              ),
+            )
+          : ListView.separated(
+              padding: EdgeInsets.all(10),
+              itemBuilder: (context, index) => _widgets[index],
+              separatorBuilder: (context, index) => SizedBox(
+                height: 25,
+              ),
+              itemCount: _widgets.length,
+            ),
     );
   }
 }

@@ -30,15 +30,21 @@ class _ScreenFastLaughState extends State<ScreenFastLaugh> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: PageView(
-          scrollDirection: Axis.vertical,
-          children: List.generate(fastLaughList.length, (index) {
-            return VideoListItem(
-              index: index,
-              posterPath: fastLaughList[index].posterPath!,
-            );
-          }),
-        ),
+        child: fastLaughList.isEmpty
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red,
+                ),
+              )
+            : PageView(
+                scrollDirection: Axis.vertical,
+                children: List.generate(fastLaughList.length, (index) {
+                  return VideoListItem(
+                    index: index,
+                    posterPath: fastLaughList[index].posterPath!,
+                  );
+                }),
+              ),
       ),
     );
   }

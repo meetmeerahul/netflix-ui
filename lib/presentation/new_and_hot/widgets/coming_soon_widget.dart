@@ -53,7 +53,7 @@ class _ComingSoonWidgetState extends State<ComingSoonWidget> {
         ),
         SizedBox(
           width: size.width - 50,
-          height: 450,
+          height: 460,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

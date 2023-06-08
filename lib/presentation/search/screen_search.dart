@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:neflix_ui/core/constants.dart';
+import 'package:neflix_ui/domain/search_results/search_model.dart';
+import 'package:neflix_ui/domain/search_results/search_results_api.dart';
 import 'package:neflix_ui/domain/top_search/top_search_api.dart';
 import 'package:neflix_ui/domain/top_search/top_search_model.dart';
 import 'package:neflix_ui/presentation/search/widgets/search_idle.dart';
@@ -16,7 +18,7 @@ class ScreenSearch extends StatefulWidget {
 
 class _ScreenSearchState extends State<ScreenSearch> {
   List<TopSearchResults> topSearchResults = [];
-  //List<ResultsSearch> searchList = [];
+  List<SearchResults> searchResults = [];
 
   TextEditingController searchController = TextEditingController();
 
@@ -26,25 +28,25 @@ class _ScreenSearchState extends State<ScreenSearch> {
   void initState() {
     super.initState();
     getTopSearch();
-    _getSearch();
+    getSearch();
     searchController.addListener(onSearchTextControlled);
   }
 
   Future<void> getTopSearch() async {
     topSearchResults = await TopSearchApi.getTopSearch();
-    //print(topSearchResults);
+
     setState(() {});
   }
 
-  _getSearch() async {
-    //  searchList = await ApihandlerForSearch.fetchSearchMovies(
-    //    searchController.text.trim());
+  getSearch() async {
+    //print(searchController.text.trim());
+    searchResults = await SearchApi.getSearch(searchController.text.trim());
+    print(searchResults);
     setState(() {});
   }
 
   void onSearchTextControlled() {
-    _getSearch();
-
+    getSearch();
     setState(() {
       isSearchidle = searchController.text.isEmpty;
       print(isSearchidle);
@@ -61,6 +63,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CupertinoSearchTextField(
+                controller: searchController,
                 backgroundColor: Colors.grey.withOpacity(0.4),
                 prefixIcon: Icon(
                   CupertinoIcons.search,
@@ -73,26 +76,27 @@ class _ScreenSearchState extends State<ScreenSearch> {
                 style: TextStyle(
                   color: Colors.white,
                 ),
-                onChanged: (value) => _onChnageEvent(),
               ),
               KHeight,
               Expanded(
-                child: isSearchidle
-                    ? SearchIdleWidget(
-                        topSearchResults: topSearchResults,
-                      )
-                    : SearchResultWidget(
-                        // searchResultFrom: searchList,
+                child: topSearchResults.isEmpty
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.red,
                         ),
+                      )
+                    : (isSearchidle
+                        ? SearchIdleWidget(
+                            topSearchResults: topSearchResults,
+                          )
+                        : SearchResultWidget(
+                            searchResults: searchResults,
+                          )),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  void _onChnageEvent() {
-    Expanded(child: const SearchResultWidget());
   }
 }

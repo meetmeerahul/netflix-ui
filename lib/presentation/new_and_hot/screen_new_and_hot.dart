@@ -82,10 +82,16 @@ class _ScreenNewAndHotState extends State<ScreenNewAndHot> {
             ),
           ),
         ),
-        body: TabBarView(children: [
-          _buildComingSoon(upcomingList: upcomingList),
-          _buildEveryoneIsWatching(upcomingList: upcomingList),
-        ]),
+        body: upcomingList.isEmpty
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red,
+                ),
+              )
+            : TabBarView(children: [
+                _buildComingSoon(upcomingList: upcomingList),
+                _buildEveryoneIsWatching(upcomingList: upcomingList),
+              ]),
       ),
     );
   }
@@ -97,7 +103,7 @@ _buildComingSoon({required upcomingList}) {
       upcomingList: upcomingList,
       index: index,
     ),
-    itemCount: 9,
+    itemCount: 15,
   );
 }
 
@@ -107,6 +113,6 @@ _buildEveryoneIsWatching({required upcomingList}) {
       upcomingList: upcomingList,
       index: index,
     ),
-    itemCount: 10,
+    itemCount: 15,
   );
 }
