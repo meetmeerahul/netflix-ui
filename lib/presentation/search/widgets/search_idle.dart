@@ -2,13 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:neflix_ui/core/colors/colors.dart';
 import 'package:neflix_ui/core/constants.dart';
+import 'package:neflix_ui/domain/top_search/top_search_model.dart';
 import 'package:neflix_ui/presentation/search/widgets/title.dart';
 
 const imageUrl =
     'https://www.themoviedb.org/t/p/w533_and_h300_bestv2/i1eghEBiC0gN4KnwuUGC2fNiX1f.jpg';
 
 class SearchIdleWidget extends StatefulWidget {
-  const SearchIdleWidget({super.key});
+  final List<TopSearchResults> topSearchResults;
+  const SearchIdleWidget({super.key, required this.topSearchResults});
 
   @override
   State<SearchIdleWidget> createState() => _SearchIdleWidgetState();
@@ -28,7 +30,10 @@ class _SearchIdleWidgetState extends State<SearchIdleWidget> {
           Expanded(
             child: ListView.separated(
               shrinkWrap: true,
-              itemBuilder: (context, index) => const TopSearchItemTile(),
+              itemBuilder: (context, index) => TopSearchItemTile(
+                backdroppath: widget.topSearchResults[index].backdropPath ?? "",
+                moviename: widget.topSearchResults[index].title ?? "",
+              ),
               separatorBuilder: (context, index) => KHeight20,
               itemCount: 15,
             ),
@@ -40,7 +45,10 @@ class _SearchIdleWidgetState extends State<SearchIdleWidget> {
 }
 
 class TopSearchItemTile extends StatefulWidget {
-  const TopSearchItemTile({super.key});
+  final String backdroppath;
+  final String moviename;
+  const TopSearchItemTile(
+      {super.key, required this.backdroppath, required this.moviename});
 
   @override
   State<TopSearchItemTile> createState() => _TopSearchItemTileState();
@@ -58,13 +66,15 @@ class _TopSearchItemTileState extends State<TopSearchItemTile> {
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(imageUrl),
+              image: NetworkImage(
+                  'https://www.themoviedb.org/t/p/w500${widget.backdroppath}'),
             ),
           ),
         ),
+        KWidth,
         Expanded(
           child: Text(
-            'Movie Name',
+            widget.moviename,
             style: TextStyle(
                 fontWeight: FontWeight.bold, color: KWhiteColor, fontSize: 16),
           ),
