@@ -8,6 +8,7 @@ import 'package:neflix_ui/domain/top_search/top_search_model.dart';
 import 'package:neflix_ui/presentation/search/widgets/search_idle.dart';
 
 import 'package:neflix_ui/presentation/search/widgets/search_result.dart';
+import 'dart:async';
 
 class ScreenSearch extends StatefulWidget {
   const ScreenSearch({super.key});
@@ -20,6 +21,8 @@ class _ScreenSearchState extends State<ScreenSearch> {
   List<TopSearchResults> topSearchResults = [];
   List<SearchResults> searchResults = [];
 
+  Timer? _debounce;
+
   TextEditingController searchController = TextEditingController();
 
   bool isSearchidle = true;
@@ -28,8 +31,11 @@ class _ScreenSearchState extends State<ScreenSearch> {
   void initState() {
     super.initState();
     getTopSearch();
-    getSearch();
-    searchController.addListener(onSearchTextControlled);
+
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 50000), () {
+      searchController.addListener(onSearchTextControlled);
+    });
   }
 
   Future<void> getTopSearch() async {
@@ -49,7 +55,6 @@ class _ScreenSearchState extends State<ScreenSearch> {
     getSearch();
     setState(() {
       isSearchidle = searchController.text.isEmpty;
-      print(isSearchidle);
     });
   }
 

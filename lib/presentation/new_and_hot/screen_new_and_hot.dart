@@ -7,9 +7,6 @@ import 'package:neflix_ui/domain/upcoming/upcoming_model.dart';
 import 'package:neflix_ui/presentation/new_and_hot/widgets/coming_soon_widget.dart';
 import 'package:neflix_ui/presentation/new_and_hot/widgets/everyone_is_watching_widget.dart';
 
-const String hotAndNewTemp =
-    'https://www.themoviedb.org/t/p/w533_and_h300_bestv2/81vgYY5fnGdi3WoCCoSm50gFSKn.jpg';
-
 List<UpcomingMovieResults> upcomingList = [];
 
 class ScreenNewAndHot extends StatefulWidget {

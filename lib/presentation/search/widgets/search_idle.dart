@@ -5,9 +5,6 @@ import 'package:neflix_ui/core/constants.dart';
 import 'package:neflix_ui/domain/top_search/top_search_model.dart';
 import 'package:neflix_ui/presentation/search/widgets/title.dart';
 
-const imageUrl =
-    'https://www.themoviedb.org/t/p/w533_and_h300_bestv2/i1eghEBiC0gN4KnwuUGC2fNiX1f.jpg';
-
 class SearchIdleWidget extends StatefulWidget {
   final List<TopSearchResults> topSearchResults;
   const SearchIdleWidget({super.key, required this.topSearchResults});
